@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">User Detail</h1>
+        {{ organization.created_by }}
+    </div>
+
+    <div>
+        <div class="my-2 text-right">
+            <div class="btn-group">
+                <a href="{% url 'org_update' organization.id %}" class="btn btn-primary" aria-current="page">Edit</a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    Delete
+                </button>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-4">
+                    Name
+                </div>
+                <div class="col-8">
+                    {{ organization.name }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Created by
+                </div>
+                <div class="col-8">
+                    {{ organization.created_by }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Created at
+                </div>
+                <div class="col-8">
+                    {{ organization.created_at }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Updated by
+                </div>
+                <div class="col-8">
+                    {{ organization.updated_by }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    Updated at
+                </div>
+                <div class="col-8">
+                    {{ organization.updated_at }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    Delete <b>{{ organization.name }}</b>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" >Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

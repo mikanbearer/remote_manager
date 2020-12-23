@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">VNC List</h1>
+    </div>
+
+    <div>
+        {% if request.user.is_staff %}
+        <div class="my-2 text-right">
+            <a type="button" class="btn btn-primary" href="{% url 'vnc_create' %}">Add</a>
+        </div>
+        {% endif %}
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">IP address</th>
+                    <th scope="col">Port</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vnc in vncsession_list %}
+                <tr>
+                    <th scope="row">{{ vnc.name }}</th>
+                    <td>{{ vnc.ip4_addr }}</td>
+                    <td>{{ vnc.vnc_port }}</td>
+                    <td>
+                        {% if request.user.is_staff %}
+                        <a href="{% url 'vnc_detail' vnc.id %}" class="btn btn-primary btn-sm" aria-current="page">Detail</a>
+                        {% endif %}
+                        {% if request.user.is_staff or request.user.organization in vnc.organizations.all %}
+                        <a href="{% url 'vnc_console' vnc.id %}" class="btn btn-warning text-light btn-sm" aria-current="page">Console</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

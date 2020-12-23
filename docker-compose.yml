@@ -1,0 +1,14 @@
+version: '3'
+services:
+  demo:
+    restart: always
+    build: .
+    ports:
+      - "8000:8000"
+      - "6080:6080"
+    volumes:
+      - ./remote_manager:/demo
+    deploy:
+      restart_policy:
+        condition: on-failure
+    command: bash -c "python3 manage.py runserver 0.0.0.0:8000 > /dev/null 2>&1 & /websockify/websockify.py --log-file /demo/log/websockify.log --target-config=/demo/token/token.conf 6080"
