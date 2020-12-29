@@ -5,11 +5,11 @@ from main.models import Organization
 class VNCSessionForm(forms.ModelForm):
     class Meta:
         model = VNCSession
-        fields = ('name', 'ip4_addr', 'vnc_port', 'password', 'organizations')
+        fields = ('name', 'ip4_addr', 'vnc_display', 'password', 'organizations')
         widgets = {
             'name': forms.TextInput(),
             'ip4_addr': forms.TextInput(),
-            'vnc_port': forms.TextInput(),
+            'vnc_display': forms.TextInput(),
             'password': forms.PasswordInput()
         }
 

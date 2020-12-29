@@ -22,7 +22,22 @@
                     {{ vncsession.name }}
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-4">
+                    IP Address
+                </div>
+                <div class="col-8">
+                    {{ vncsession.ip4_addr }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Display
+                </div>
+                <div class="col-8">
+                    {{ vncsession.vnc_display }}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-4">
                     Organizations

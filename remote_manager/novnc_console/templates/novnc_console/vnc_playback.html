@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Playback - {{ name }}</h1>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <video width="100%" height="360" controls>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <ul class="list-group">
+                    {% for key, value in record_by_user.items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a class="card-link" data-toggle="collapse" data-target="#colapse{{ key }}">{{ key }}</a>
+                    <span class="badge bg-primary rounded-pill text-white">{{ value|length}}</span>
+                    </li>
+                    <div class="collapse" id="colapse{{ key }}">
+                        <ul class="list-group">
+                            {% for record in value %}
+                            <li onclick="changeSource('{{ user }}/{{ record }}')" class="list-group-item">{{ record }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function changeSource (record) {
+            var video = $('video')[0];
+            var source = document.createElement('source');
+            source.setAttribute('src', '/media/record/' + '{{ pk }}' + '/' + record);
+            video.appendChild(source);
+            video.play();
+        }
+
+    </script>
+
+{% endblock %}

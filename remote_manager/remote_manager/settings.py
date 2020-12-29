@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'main',
     'novnc_console',
     'crispy_forms'
@@ -123,8 +124,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    '/static'
+    os.path.join('/', 'static')
 ]
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'media/'
+
+
+ASGI_APPLICATION = 'remote_manager.asgi.application'
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
@@ -135,3 +143,5 @@ LOGOUT_REDIRECT_URL = '/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 WEBSOCKIFY = ['192.168.149.131', 6080]
+
+

@@ -7,4 +7,6 @@ urlpatterns = [
     path('detail/<str:pk>', views.VNCDetailView.as_view(), name='vnc_detail'),
     path('update/<str:pk>', views.VNCUpdateView.as_view(), name='vnc_update'),
     path('vnc_console/<str:pk>', views.VNCConsoleView.as_view(), name='vnc_console'),
+    path('vnc_playback/<str:pk>', views.VNCPlaybackView.as_view(), name='vnc_playback'),
+
 ]

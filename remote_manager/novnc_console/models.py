@@ -21,8 +21,8 @@ class VNCSession(models.Model):
         protocol='IPv4'
     )
 
-    vnc_port = models.IntegerField(
-        validators=[MaxValueValidator(65535), MinValueValidator(1024)]
+    vnc_display = models.IntegerField(
+        validators=[MaxValueValidator(10), MinValueValidator(1)]
     )
 
     password = models.CharField(

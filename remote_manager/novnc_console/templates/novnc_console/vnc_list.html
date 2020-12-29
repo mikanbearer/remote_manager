@@ -16,7 +16,7 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">IP address</th>
-                    <th scope="col">Port</th>
+                    <th scope="col">Display</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -25,13 +25,14 @@
                 <tr>
                     <th scope="row">{{ vnc.name }}</th>
                     <td>{{ vnc.ip4_addr }}</td>
-                    <td>{{ vnc.vnc_port }}</td>
+                    <td>:{{ vnc.vnc_display }}</td>
                     <td>
                         {% if request.user.is_staff %}
                         <a href="{% url 'vnc_detail' vnc.id %}" class="btn btn-primary btn-sm" aria-current="page">Detail</a>
                         {% endif %}
                         {% if request.user.is_staff or request.user.organization in vnc.organizations.all %}
                         <a href="{% url 'vnc_console' vnc.id %}" class="btn btn-warning text-light btn-sm" aria-current="page">Console</a>
+                        <a href="{% url 'vnc_playback' vnc.id %}" class="btn btn-secondary text-light btn-sm" aria-current="page">Playback</a>
                         {% endif %}
                     </td>
                 </tr>

@@ -8,6 +8,21 @@
          <iframe width="100%" height="480" src="/static/noVNC/vnc_lite.html?host={{ proxy_ip }}&port={{ proxy_port }}&password={{ password }}&path=websockify/?token={{ token }}" title=""></iframe>
     </div>
 
+    <script>
 
+        const recordingSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/{{ pk }}/'
+        )
+
+
+        const checkWS = setInterval(
+            () => {
+                if (recordingSocket.readyState === WebSocket.CLOSED) {
+                    location.replace('{% url 'vnc_list' %}')
+                }
+            }, 1000)
+    </script>
 
 {% endblock %}
