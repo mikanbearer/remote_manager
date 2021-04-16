@@ -1,12 +1,14 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, View
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from .models import CustomUser, Organization
 from .forms import CustomUserCreationForm, OrganizationForm
 import re
+
 
 # Create your views here.
 class PassRequestToFormViewMixin:
@@ -23,6 +25,16 @@ class MainLoginView(LoginView):
 
 class MainLogoutView(LogoutView, LoginRequiredMixin):
     pass
+
+
+class PasswordUpdateView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
+    model = CustomUser
+    form_class = PasswordChangeForm
+    template_name = 'main/password.html'
+    success_message = 'Success!'
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
 
 
 class DashboardView(LoginRequiredMixin, View):
@@ -71,6 +83,7 @@ class DashboardView(LoginRequiredMixin, View):
 class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     queryset = CustomUser.objects.filter(is_superuser=False)
     template_name = 'main/user_list.html'
+
     def test_func(self):
         return self.request.user.is_staff
 
@@ -79,6 +92,7 @@ class UserCreateView(LoginRequiredMixin, UserPassesTestMixin, PassRequestToFormV
     form_class = CustomUserCreationForm
     template_name = 'main/user_form.html'
     success_url = reverse_lazy('user_list')
+
     def test_func(self):
         return self.request.user.is_staff
 
@@ -87,6 +101,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, PassRequestToFormV
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = 'main/user_form.html'
+
     def get_success_url(self):
         return reverse_lazy('user_detail', kwargs={'pk': self.kwargs['pk']})
 
@@ -98,6 +113,7 @@ class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CustomUser
     template_name = 'main/user_detail.html'
     success_url = reverse_lazy('user_list')
+
     def test_func(self):
         return self.request.user.is_staff
 
@@ -105,6 +121,7 @@ class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class OrgListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Organization
     template_name = 'main/org_list.html'
+
     def test_func(self):
         return self.request.user.is_staff
 
@@ -113,6 +130,7 @@ class OrgCreateView(LoginRequiredMixin, UserPassesTestMixin, PassRequestToFormVi
     form_class = OrganizationForm
     template_name = 'main/org_form.html'
     success_url = reverse_lazy('org_list')
+
     def test_func(self):
         return self.request.user.is_staff
 
@@ -121,6 +139,7 @@ class OrgUpdateView(LoginRequiredMixin, UserPassesTestMixin, PassRequestToFormVi
     model = Organization
     form_class = OrganizationForm
     template_name = 'main/org_form.html'
+
     def get_success_url(self):
         return reverse_lazy('org_detail', kwargs={'pk': self.kwargs['pk']})
 
